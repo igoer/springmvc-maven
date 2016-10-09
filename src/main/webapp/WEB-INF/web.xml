@@ -3,8 +3,9 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-    <display-name>Archetype Created Web Application</display-name>
+    <display-name>springmvc-maven</display-name>
 
+    <!-- spring配置文件 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
@@ -13,9 +14,11 @@
         </param-value>
     </context-param>
 
+    <!-- springmvc入口servlet配置 -->
     <servlet>
         <servlet-name>springmvc</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!-- 配置文件地址 -->
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath*:spring-springmvc.xml</param-value>
@@ -26,15 +29,29 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <!--
+        编码filter
+        encoding 是表示设置 request 的编码
+        forceEncoding 表示是否同时设置 response 的编码
+    -->
     <filter>
         <filter-name>encoding</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>encoding</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!-- session 过期时间 -->
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>

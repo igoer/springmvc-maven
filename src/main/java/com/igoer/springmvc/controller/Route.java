@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * Created by Administrator on 2016/9/30.
  *
- * 基本的路由设定以及参数绑定
+ * 基本的路由设定及页面跳转
  */
 @Controller
 @RequestMapping("route")
@@ -18,11 +18,21 @@ public class Route {
      *
      * @return
      */
-    @RequestMapping("/index")
-    public ModelAndView index() {
+    @RequestMapping("/model")
+    public ModelAndView route_1() {
         ModelAndView model = new ModelAndView();
-        model.setViewName("/route/index");
+        model.setViewName("/route/route_1");
         return model;
+    }
+
+    /**
+     * 通过返回 String 跳转到 views 目录下对应页面
+     *
+     * @return
+     */
+    @RequestMapping("/string")
+    public String route_2() {
+        return "route_2";
     }
 
 }
