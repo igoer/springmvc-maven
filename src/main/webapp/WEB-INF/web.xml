@@ -5,20 +5,28 @@
 <web-app>
     <display-name>springmvc-maven</display-name>
 
-    <!-- spring配置文件 -->
+    <!--
+        ContextLoaderListener 监听器, 实现了 ServletContextListener 接口
+        通过 contextConfigLocation context-param, 装配 Spring ApplicationContext 配置文件
+    -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!-- spring 配置文件 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
             classpath*:spring-bean.xml
             classpath*:spring-application.xml
+            classpath*:spring-other.xml
         </param-value>
     </context-param>
 
-    <!-- springmvc入口servlet配置 -->
+    <!-- springmvc 入口 servlet 配置 -->
     <servlet>
         <servlet-name>springmvc</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <!-- 配置文件地址 -->
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath*:spring-springmvc.xml</param-value>
@@ -30,7 +38,7 @@
     </servlet-mapping>
 
     <!--
-        编码filter
+        编码 filter
         encoding 是表示设置 request 的编码
         forceEncoding 表示是否同时设置 response 的编码
     -->
