@@ -11,6 +11,6 @@
     <title>Route Page</title>
 </head>
 <body>
-    <h2>WebContent/WEB-INF/views/route_1.jsp</h2>
+    <h2>WebContent/WEB-INF/views/route/route_1.jsp</h2>
 </body>
 </html>
