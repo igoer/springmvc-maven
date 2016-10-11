@@ -1,6 +1,7 @@
 package com.igoer.springmvc.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -65,6 +66,45 @@ public class Route {
     }
 
     /***************************************************
+     * 占位符请求映射
+     * 该功能在 SpringMVC 向 REST 目标挺进过程中具有里程碑意义
+     ***************************************************/
+
+    /**
+     * 将请求地址中的占位符参数绑定到 controller 的处理器方法入参中
+     * url 中的 {xxx} 占位符可以通过 @PathVariable 注解绑定到方法的入参中
+     *
+     * @return
+     */
+    @RequestMapping(value = "/pv/{id}")
+    public ModelAndView pathVariable(@PathVariable(value = "id") Integer id) {
+        return new ModelAndView("route/route_" + id);
+    }
+
+    /**
+     * 将请求地址中的占位符参数绑定到 controller 的处理器方法入参中
+     * url 中的 {xxx} 占位符可以通过 @PathVariable 注解绑定到方法的入参中
+     *
+     * @return
+     */
+    @RequestMapping(value = "/pvs/{id}/{name}")
+    public ModelAndView pathVariableMore(@PathVariable(value = "id") Integer id, @PathVariable("name") String name) {
+        System.out.println(name);
+        return new ModelAndView("route/route_" + id);
+    }
+
+    /**
+     * 将请求地址中的占位符参数绑定到 controller 的处理器方法入参中
+     * url 中的 {xxx} 占位符可以通过 @PathVariable 注解绑定到方法的入参中
+     *
+     * @return
+     */
+    @RequestMapping(value = "/pvp/{id}/project")
+    public ModelAndView pathVariableJup(@PathVariable(value = "id") Integer id) {
+        return new ModelAndView("route/route_" + id);
+    }
+
+    /***************************************************
      * Ant 风格请求映射
      * ?    匹配一个字符
      * *    匹配任意字符
@@ -73,6 +113,7 @@ public class Route {
 
     /**
      * 匹配如下请求地址
+     *
      * /route/ant_1/a
      * /route/ant_1/ab
      * /route/ant_1/abc 等URL地址
@@ -86,6 +127,7 @@ public class Route {
 
     /**
      * 匹配如下请求地址
+     *
      * /route/ant_2/a/index
      * /route/ant_2/ab/index
      * /route/ant_2/abc/index 等URL地址
@@ -99,6 +141,7 @@ public class Route {
 
     /**
      * 匹配如下请求地址
+     *
      * /route/ant_3
      * /route/ant_3/aa
      * /route/ant_3/aa/bb
@@ -113,6 +156,7 @@ public class Route {
 
     /**
      * 匹配如下请求地址
+     *
      * /route/ant_4/aa/index
      * /route/ant_4/aa/bb/index
      * /route/ant_4/aa/bb/cc/index 等URL地址
@@ -126,6 +170,7 @@ public class Route {
 
     /**
      * 匹配如下请求地址
+     *
      * /route/ant_5aa
      * /route/ant_5bb
      * /route/ant_5cc 等URL地址
@@ -140,6 +185,7 @@ public class Route {
 
     /**
      * 匹配如下请求地址
+     *
      * /route/ant_6/a
      * /route/ant_6/b
      * /route/ant_6/c 等URL地址
@@ -153,7 +199,7 @@ public class Route {
     }
 
     /***************************************************
-     * 参数请求映射
+     * 其他请求映射
      ***************************************************/
 
     /**
@@ -167,20 +213,41 @@ public class Route {
     }
 
     /**
+     * 使用 @RequestMapping 的 method 属性设置请求方式
+     *
+     * @return
+     */
+    @RequestMapping(value = "/post", method = RequestMethod.POST)
+    public ModelAndView post() {
+        return new ModelAndView("route/route_1");
+    }
+
+    /**
+     * 使用 @RequestMapping 的 params 属性设置
+     * 方法仅处理请求中包含了名为 “param” 的参数
+     *
+     * @return
+     */
+    @RequestMapping(value = "/params", params = "param")
+    public ModelAndView params() {
+        return new ModelAndView("route/route_1");
+    }
+
+    /**
      * 使用 @RequestMapping 的 params 属性设置
      * 方法仅处理请求中包含了名为 “param”，值为 “123” 的请求
      *
      * @return
      */
-    @RequestMapping(value = "params", params = "param=123")
-    public ModelAndView params() {
+    @RequestMapping(value = "/paramsValue", params = "param=123")
+    public ModelAndView paramsValue() {
         return new ModelAndView("route/route_1");
     }
 
     /**
      * 使用 @RequestMapping 的 header 属性设置 Reauest Header 中包含的属性
      *
-     * 示例设置了只处理请求头中包含 MYHEADER 属性且值为 ABC123CDE
+     * 示例设置了只处理请求头中包含自定义的 MYHEADER 属性且值为 ABC123CDE
      * 如无法匹配服务器返回 404
      *
      * @return
@@ -209,7 +276,7 @@ public class Route {
      *
      * @return
      */
-    @RequestMapping(value = "produces", produces = "application/json")
+    @RequestMapping(value = "/produces", produces = "application/json")
     @ResponseBody
     public Map<String, String> produces() {
         Map<String, String> map = new HashMap<String, String>();
